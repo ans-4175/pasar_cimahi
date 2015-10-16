@@ -1,0 +1,22 @@
+{
+  "name": "pasar_cimahi",
+  "version": "1.0.0",
+  "description": "proof of concept pasar cimahi",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:ans-4175/pasar_cimahi.git"
+  },
+  "keywords": [
+    "api"
+  ],
+  "author": "ans4175 <ans4175@gmail.com> (http://ans-4175.github.io/)",
+  "license": "GNU",
+  "bugs": {
+    "url": "https://github.com/ans-4175/pasar_cimahi/issues"
+  },
+  "homepage": "https://github.com/ans-4175/pasar_cimahi"
+}
