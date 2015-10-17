@@ -18,5 +18,13 @@
   "bugs": {
     "url": "https://github.com/ans-4175/pasar_cimahi/issues"
   },
-  "homepage": "https://github.com/ans-4175/pasar_cimahi"
+  "homepage": "https://github.com/ans-4175/pasar_cimahi",
+  "dependencies": {
+    "bluebird": "^2.10.2",
+    "cheerio": "^0.19.0",
+    "fs-extra": "^0.24.0",
+    "lodash": "^3.10.1",
+    "request": "^2.65.0",
+    "sugar": "^1.4.1"
+  }
 }
