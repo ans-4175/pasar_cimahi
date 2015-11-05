@@ -1,48 +1,34 @@
-from os import listdir
-from os.path import isfile, join
+import os
+import os.path as path
 import json
 
 import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.style.use('ggplot')
+import numpy as np
+import pandas as pd
 
-xaxis = []
-barangs = []
-harga_atas = []
-harga_cimindi = []
-harga_melong = []
-berapa_tulis = 0
-for date in [f for f in listdir('data') if isfile(join('data', f))]:
-    berapa_tulis = 0 if berapa_tulis == 5 else berapa_tulis + 1
-    xaxis.append(date[5:10] if berapa_tulis == 1 else '')
-    with open(join('data', date)) as infile:
-        mentah = json.load(infile)
-        barangs = [barang for barang in mentah if barang['barang'] == 'Daging Ayam Broiler']
-        harga_atas.append(barangs[0]['pasar_atas'])
-        harga_cimindi.append(barangs[0]['pasar_cimindi'])
-        harga_melong.append(barangs[0]['pasar_melong'])
+search = 'Cabe Merah Biasa'
+pasars = ['atas', 'cimindi', 'melong']
 
-fig, ax = plt.subplots()
-ax.plot(harga_atas, label='Pasar Atas')
-ax.plot(harga_cimindi, label='Pasar Cimindi')
-ax.plot(harga_melong, label='Pasar Melong')
+# parsing
+index, data = [], []
+for date in [f for f in os.listdir('data') if path.isfile(path.join('data', f))]:
+    with open(path.join('data', date)) as file:
+        barangs = json.load(file)
+    index.append(pd.to_datetime(date[5:10]))
+    barang = next((x for x in barangs if x['barang'] == search), None)
+    hargas = []
+    for pasar in pasars:
+        harga = barang['pasar_'+pasar]
+        hargas.append(np.nan if barang is None else np.nan if harga < 1000 else harga)
+    data.append(hargas)
 
-plt.xticks(range(len(xaxis)), xaxis, rotation=45)
+# preparing
+df = pd.DataFrame(data, index=index, columns=pasars)
+df.plot()
 
-# Now add the legend with some customizations.
-legend = ax.legend(loc='upper center', shadow=True)
-
-# The frame is matplotlib.patches.Rectangle instance surrounding the legend.
-frame = legend.get_frame()
-frame.set_facecolor('0.90')
-
-# Set the fontsize
-for label in legend.get_texts():
-    label.set_fontsize('large')
-
-for label in legend.get_lines():
-    label.set_linewidth(1.5)  # the legend line width
-
-x1,x2,y1,y2 = plt.axis()
-plt.axis((x1, x2, 10000, 200000))
-
-plt.grid(True)
+# show
+y1, y2 = plt.ylim()
+plt.ylim((y1-1000, y2+1000))
 plt.show()
