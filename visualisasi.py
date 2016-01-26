@@ -8,7 +8,7 @@ matplotlib.style.use('ggplot')
 import numpy as np
 import pandas as pd
 
-search = 'Cabe Merah Biasa'
+search = 'Daging Sapi'
 pasars = ['atas', 'cimindi', 'melong']
 
 # parsing
@@ -16,7 +16,7 @@ index, data = [], []
 for date in [f for f in os.listdir('data') if path.isfile(path.join('data', f))]:
     with open(path.join('data', date)) as file:
         barangs = json.load(file)
-    index.append(pd.to_datetime(date[5:10]))
+    index.append(pd.to_datetime(date[0:10]))
     barang = next((x for x in barangs if x['barang'] == search), None)
     hargas = []
     for pasar in pasars:
