@@ -4,24 +4,26 @@ import json
 
 import matplotlib.pyplot as plt
 import matplotlib
-matplotlib.style.use('ggplot')
+# matplotlib.style.use('ggplot')
 import numpy as np
 import pandas as pd
 
-search = 'Daging Sapi'
+search = 'Bawang Merah'
 pasars = ['atas', 'cimindi', 'melong']
+datatest = 'data/test'
 
 # parsing
 index, data = [], []
-for date in [f for f in os.listdir('data') if path.isfile(path.join('data', f))]:
-    with open(path.join('data', date)) as file:
+for date in [f for f in os.listdir(datatest) if path.isfile(path.join(datatest, f))]:
+    with open(path.join(datatest, date)) as file:
         barangs = json.load(file)
     index.append(pd.to_datetime(date[0:10]))
     barang = next((x for x in barangs if x['barang'] == search), None)
     hargas = []
     for pasar in pasars:
-        harga = barang['pasar_'+pasar]
-        hargas.append(np.nan if barang is None else np.nan if harga < 1000 else harga)
+    	if barang is not None:
+        	harga = barang['pasar_'+pasar]
+        	hargas.append(np.nan if barang is None else np.nan if harga < 1000 else harga)
     data.append(hargas)
 
 # preparing
