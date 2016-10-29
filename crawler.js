@@ -5,8 +5,13 @@ var sugar = require("sugar")
 var _ = require('lodash')
 var fse = require("fs-extra")
 
+function checkPrice(value) {
+	return (typeof value !== 'undefined') && (value.data != '-')
+}
+
 function hitURL(date){
-	var url = "http://uptpasar.cimahikota.go.id/viewdata/surveypasar/surveypasarlist?cari=Cari&tanggalsurvey="
+	// var url = "http://uptpasar.cimahikota.go.id/viewdata/surveypasar/surveypasarlist?cari=Cari&tanggalsurvey="
+	var url = "http://uptpasar.cimahikota.go.id/viewdata/surveypasar/surveypasarlist?tanggalsurvey="
 	return new Promise(function(resolve,reject){
 		request({
 			url:url+date,
@@ -34,10 +39,10 @@ function crawlData(dt){
 							timestamp: dt.getTime(),
 							barang: $(this).find('td')[1].children[0].data,
 							satuan: $(this).find('td')[2].children[0].data,
-							pasar_atas: parseInt($(this).find('td')[3].children[0].data.replace(".", "")),
-							pasar_cimindi: parseInt($(this).find('td')[4].children[0].data.replace(".", "")),
-							pasar_melong: parseInt($(this).find('td')[5].children[0].data.replace(".", "")),
-							rerata: parseInt($(this).find('td')[6].children[0].data.replace(".", ""))
+							pasar_atas: (checkPrice($(this).find('td')[3].children[0])) ? parseInt($(this).find('td')[3].children[0].data.replace(".", "")) : 0,
+							pasar_cimindi: (checkPrice($(this).find('td')[4].children[0])) ? parseInt($(this).find('td')[4].children[0].data.replace(".", "")) : 0,
+							pasar_melong: (checkPrice($(this).find('td')[5].children[0])) ? parseInt($(this).find('td')[5].children[0].data.replace(".", "")) : 0,
+							rerata: (checkPrice($(this).find('td')[6].children[0])) ? parseInt($(this).find('td')[6].children[0].data.replace(".", "")) : 0
 						}
 						prices.push(data)
 					}catch(e){
