@@ -6,7 +6,7 @@ var _ = require('lodash')
 var fse = require("fs-extra")
 
 function checkPrice(value) {
-	return (typeof value !== 'undefined') && (value.data != '-')
+	return (typeof value !== 'undefined') && (value.data != '-') && (value.data != '1')
 }
 
 function hitURL(date){
