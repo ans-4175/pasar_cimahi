@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-search = 'kacang'
+search = 'Bawang Merah'
 pasars = ['atas', 'cimindi', 'melong']
 datatest = 'data'
 # datatest = 'data/test'
@@ -19,6 +19,7 @@ for date in [f for f in os.listdir(datatest) if path.isfile(path.join(datatest, 
     with open(path.join(datatest, date)) as file:
         barangs = json.load(file)
     index.append(pd.to_datetime(date[0:10]))
+    # barang = next((x for x in barangs if x['barang'] == search), None)
     barang = next((x for x in barangs if search.lower() in x['barang'].lower()), None)
     hargas = []
     for pasar in pasars:
